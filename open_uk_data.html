@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Enter query to search</p>
+
+<form id="form" action="https://data.gov.uk/api/action/package_search?" onsubmit="myFunction()">
+  Enter query: <input id="query" type="text" name="q">
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+	console.log(document.getElementById("form").action+document.getElementById("query").value);
+function myFunction() {
+  document.getElementById("form").action=document.getElementById("form").action+document.getElementById("query").value;
+}
+</script>
+
+</body>
+</html>
