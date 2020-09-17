@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>
+		<label>Provide Url:</label>
+		<input type="url" id="url">
+		<button type=submit onclick="submit()">Submit</button>
+	</div>
+</body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	// var getUrl = window.location;
+	// var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+	// console.log(getUrl,typeof(getUrl),baseUrl);
+	var submit=function(){
+		var pathArray = document.getElementById('url').value.split( '/' );
+		var protocol = pathArray[0];
+		var host = pathArray[2];
+		var base = protocol + '//' + host + '/';
+		console.log(base);
+		$.ajax({
+		      url : '/submit',
+		      type : 'POST',
+		      data:{
+		        url:document.getElementById('url').value,
+		        base:base
+		      },
+		      // dataType:'json',
+		      success : function(data) {    
+		        var i = 0;                 
+				myLoop(i,data); 	
+		      },
+		      error : function(request,error)
+		      {
+		        alert("Request: "+JSON.stringify(request));
+		      }
+		 });     
+	}
+
+	function myLoop(i,urls) {         
+		setTimeout(function() {   
+			console.log('i',i,urls);
+			var link = document.createElement('a');
+			link.setAttribute('download', null); 
+			document.body.appendChild(link);
+	    	link.setAttribute('href', urls[i]);
+	    	link.click();
+			i++;                    
+			if (i < urls.length) {          
+				myLoop(i,urls);            
+			}                     
+		}, 3000)
+	}
+
+	function downloadAll(urls) {
+	  
+
+	  for (var i = 0; i < urls.length; i++) {
+	  
+	  	var link = document.createElement('a');
+
+	  	link.setAttribute('download', null);
+	  	// this["link"+i].style.display = 'none';
+
+	  	document.body.appendChild(this["link"+i]);
+	    link.setAttribute('href', urls[i]);
+	    link.click();
+	  }
+
+	  // document.body.removeChild(link);
+	}
+	</script>
+</html>
